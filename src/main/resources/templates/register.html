@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+     <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="message" th:if="${message != null}">
+           [[${message}]]
+        </div>
+        <h2>Registration Form</h2>
+        <form 
+         th:action="@{/registration}"
+         method="post"
+         role="form"
+         th:object="${user}"
+        >
+            <div class="form-group">
+                <label for="firstName">FirstName:</label>
+                <input th:field="*{firstName}" type="text" id="firstName" name="firstName" placeholder="Enter your firstName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="middleName">MiddleName:</label>
+                <input th:field="*{middleName}" type="text" id="middleName" name="middleName" placeholder="Enter your middleName">
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">LastName:</label>
+                <input th:field="*{lastName}" type="text" id="lastName" name="lastName" placeholder="Enter your lastName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input th:field="*{email}" type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input th:field="*{password}" type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="passportSeries">PassportSeries:</label>
+                <input th:field="*{passportSeries}" type="text" id="passportSeries" name="passportSeries" placeholder="Enter your passportSeries" required>
+            </div>
+
+            <div class="form-group">
+                <label for="passportNumber">PassportNumber:</label>
+                <input th:field="*{passportNumber}" type="text" id="passportNumber" name="passportNumber" placeholder="Enter your passportNumber" required>
+                <div th:if="${#fields.hasErrors('passportNumber')}" th:errors="*{passportNumber}" class="error">
+                    Ошибка валидации
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dateOfBirth">Дата рождения:</label>
+                <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}" required>
+                <div th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="error"></div>
+            </div>
+            <input type="submit" value="Register">
+        </form>
+
+    </div>
+</body>
+</html>

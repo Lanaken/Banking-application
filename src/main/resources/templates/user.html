@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="header">
+    <h1>USER Dashboard</h1>
+</div>
+<div class="container">
+    <h2>Welcome, [[${user.getFirstName()}]]</h2>
+
+    <a href="/credits" class="button">View All Credits</a>
+    <a href="/debit-accounts" class="button">Debit Accounts & Cards</a>
+
+    <span sec:authorize="isAuthenticated">
+        <a th:href="@{/logout}" class="button">Logout</a>
+        </span>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.0'
+	id 'io.spring.dependency-management' version '1.1.5'
+	id 'org.jetbrains.kotlin.jvm'
+//	id 'checkstyle'
+}
+
+group = 'com.petrov'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+//checkstyle {
+//	toolVersion = "10.12.4"
+//	configFile = file("${rootDir}/config/checkstyle/checkstyle.xml")
+//}
+//checkstyleMain {
+//	source ='src/main/java'
+//}
+
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation 'org.testcontainers:postgresql'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+	// database
+	runtimeOnly 'org.postgresql:postgresql'
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+	// validation
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+
+	// security
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+	// mapStruct
+	implementation ("org.mapstruct:mapstruct:1.6.0")
+	annotationProcessor("org.mapstruct:mapstruct-processor:1.6.0")
+
+	//thymeleaf
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf:3.3.0")
+	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+
+	//Generex
+	implementation("com.github.mifmif:generex:1.0.2")
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+	options.compilerArgs += '--enable-preview'
+}
+
+tasks.withType(JavaExec) {
+	jvmArgs += '--enable-preview'
+}
