@@ -13,8 +13,8 @@
 <div class="container">
     <h2>Welcome, [[${user.getFirstName()}]]</h2>
 
-    <a href="/credits" class="button">View All Credits</a>
-    <a href="/debit-accounts" class="button">Debit Accounts & Cards</a>
+    <a href="/credit" class="button">View All Credits</a>
+    <a href="/debit" class="button">Debit Accounts & Cards</a>
 
     <span sec:authorize="isAuthenticated">
         <a th:href="@{/logout}" class="button">Logout</a>

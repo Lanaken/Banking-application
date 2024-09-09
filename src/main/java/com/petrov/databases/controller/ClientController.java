@@ -2,7 +2,7 @@ package com.petrov.databases.controller;
 
 import com.petrov.databases.dto.client.ClientDTO;
 import com.petrov.databases.entity.Client;
-import com.petrov.databases.service.client.ClientDetail;
+import com.petrov.databases.exception.UserAlreadyExistsException;
 import com.petrov.databases.service.client.ClientService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,15 +38,21 @@ public class ClientController {
 
     @PostMapping("/registration")
     public String registerUser(@Valid @ModelAttribute("user") ClientDTO clientDTO, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("user", clientDTO);
-            return "register"; // Возвращаем имя представления с формой регистрации
-        }
-        clientDTO.setRole("USER");
-        clientService.saveClient(clientDTO);// Назначение роли
+        try {
+            if (result.hasErrors()) {
+                model.addAttribute("user", clientDTO);
+                return "register"; // Возвращаем имя представления с формой регистрации
+            }
+            clientDTO.setRole("USER");
+            clientService.saveClient(clientDTO);// Назначение роли
 
-        model.addAttribute("message", "Registration successful!");
-        return "register";
+            model.addAttribute("message", "Registration successful!");
+            return "redirect:/login?success";
+        }
+        catch (UserAlreadyExistsException exception) {
+            model.addAttribute("message", "User already exists");
+            return "register";
+        }
     }
 
 

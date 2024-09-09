@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -51,6 +52,19 @@ public class ClientService {
                 .findByEmail(username)
                 .orElseThrow(() -> new RuntimeException(STR."Client with name= \{ username } was not found"));
         return client;
+    }
+    public ClientDTO getClientDtoByEmail(String username) {
+        Client client = getClientByEmail(username);
+        ClientDTO clientDTO = clientMapper.clientToClientDTO(client);
+        return clientDTO;
+    }
+
+
+    @Transactional
+    public Client getClientByEmailWithDebitAccountsAndCards(String email) {
+        Client client = clientRepository
+                .findByEmailWithAccountsAndCards(email);
+              return client;
     }
 
 }

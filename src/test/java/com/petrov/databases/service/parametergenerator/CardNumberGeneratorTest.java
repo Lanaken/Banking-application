@@ -1,4 +1,4 @@
-package com.petrov.databases.service.cardgenerator;
+package com.petrov.databases.service.parametergenerator;
 
 import com.petrov.databases.entity.debitcard.PaymentSystem;
 import org.junit.jupiter.api.Test;
@@ -20,9 +20,11 @@ public class CardNumberGeneratorTest {
     @Test
     public void testMasterCardNumber() {
         String cardNumber = generator.generateCardNumber(PaymentSystem.MASTERCARD);
-        assertTrue(cardNumber.startsWith("5") || cardNumber.matches("^22[2-7][1-9]"));
-        assertEquals(16, cardNumber.length());
-        assertTrue(isValidCardNumber(cardNumber));
+        System.out.println("Generated MasterCard number: " + cardNumber);
+        assertTrue(cardNumber.startsWith("5") || cardNumber.matches("^22[2-9]\\d{2}|^2[3-6]\\d{2}|^27[0-1]\\d|^2720"),
+                "MasterCard should start with '5' or be in the range 2221–2720");
+        assertEquals(16, cardNumber.length(), "MasterCard number should have 16 digits");
+        assertTrue(isValidCardNumber(cardNumber), "MasterCard number should be valid according to Luhn algorithm");
     }
 
     @Test

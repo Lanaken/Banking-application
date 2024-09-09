@@ -15,6 +15,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -22,7 +24,9 @@ import java.util.Set;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(schema = "test")
 public class Credit {
 
@@ -46,10 +50,7 @@ public class Credit {
     private Pledge pledge;
 
     @Column(nullable = false, updatable = false, scale = 2)
-    private BigDecimal initialAmount;
-
-    @Column(nullable = false, scale = 2)
-    private BigDecimal debt;
+    private BigDecimal amount;
 
     @Column(nullable = false)
     private LocalDate openedDate;
@@ -58,19 +59,16 @@ public class Credit {
     private LocalDate closedDate;
 
     @Column(nullable = false)
-    private String rate;
+    private BigDecimal rate;
 
     @Column(nullable = false)
     private boolean hasPenalty = false;
 
-    public void addPenalty() {
-        hasPenalty = true;
-    }
-
-    public void removePenalty() {
-        hasPenalty = false;
-    }
-
     @Column(nullable = false, updatable = false)
     private short term;
+
+    public void addCreditPayments(Set<CreditPayment> creditPayments) {
+        creditPayments.forEach(creditPayment -> creditPayment.setCredit(this));
+        this.setCreditPayments(creditPayments);
+    }
 }

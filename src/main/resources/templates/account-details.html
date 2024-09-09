@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Details</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+
+        .card {
+            border: 1px solid #45b6fe;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #1b3b5a;
+            color: white;
+        }
+
+        .card h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #45b6fe;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Account Details</h1>
+</div>
+
+<div class="container">
+    <!-- Проверяем, есть ли счёт -->
+    <div th:if="${account != null}">
+        <h2>Account: <span th:text="${account.accountNumber}"></span></h2>
+        <h3>Current Balance: <span th:text="${account.currentAmount}"></span></h3>
+
+        <!-- Проверяем, есть ли связанные карты -->
+        <h3 th:if="${cards != null and #lists.size(cards) > 0}">Cards:</h3>
+        <ul th:if="${cards != null and #lists.size(cards) > 0}">
+            <li th:each="card : ${cards}" class="card">
+                <h4>Card Details</h4>
+                Card Number: <span th:text="${card.cardNumber}"></span><br>
+                Expiration Date: <span th:text="${card.expirationDate}"></span><br>
+                CVV (Hashed): <span th:text="${card.cvvHash}"></span><br>
+                Payment System: <span th:text="${card.system}"></span><br>
+            </li>
+        </ul>
+
+        <div class="form-group">
+            <h3>Issue New Debit Card for This Account:</h3>
+            <form action="/debit/{accountId}" method="post">
+                <input type="hidden" name="accountId" th:value="${account.id}">
+
+                <!-- Выбор платежной системы для новой карты -->
+                <div class="form-group">
+                    <label for="payment-system">Choose Payment System:</label>
+                    <select id="payment-system" name="paymentSystem">
+                        <option value="VISA">VISA</option>
+                        <option value="MASTERCARD">MASTERCARD</option>
+                        <option value="MIR">MIR</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="button">Issue New Card</button>
+            </form>
+        </div>
+
+        <!-- Кнопка перехода обратно на главную страницу со списком счетов -->
+        <div class="link-button">
+            <a th:href="@{/debit}" class="button">Back to Accounts List</a>
+        </div>
+
+        <!-- Сообщение, если карт нет -->
+        <div th:if="${cards == null or #lists.size(cards) == 0}">
+            <p>No cards associated with this account.</p>
+        </div>
+    </div>
+
+    <!-- Сообщение, если счёта нет -->
+    <div th:unless="${account != null}">
+        <p>No account found or no account is associated with the user.</p>
+    </div>
+</div>
+
+</body>
+</html>

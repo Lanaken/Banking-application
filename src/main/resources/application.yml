@@ -14,7 +14,10 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+  thymeleaf:
+    enabled: true
+    cache: false
 
 logging:
   level:
-    root: info
+    root: debug

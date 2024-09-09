@@ -1,4 +1,4 @@
-package com.petrov.databases.dto.client;
+package com.petrov.databases.dto.debit;
 
 
 import jakarta.persistence.Column;

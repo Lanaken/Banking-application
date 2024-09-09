@@ -13,6 +13,7 @@ import java.util.Set;
 
 @AllArgsConstructor
 @Getter
+@Setter
 public class ClientDTO {
     private Long id;
     private Set<Long> debitAccountIds;
@@ -28,6 +29,5 @@ public class ClientDTO {
     private String passportNumber;
     private String password;
     private String email;
-    @Setter
     private String role;
 }

@@ -8,7 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -18,14 +18,18 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Getter
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Setter
 // Ограничение сработает только если хибер будет создавать таблицу
 @Table(schema = "test", uniqueConstraints = { @UniqueConstraint(columnNames = { "passport_series", "passport_number" }) })
 public class Client {
@@ -34,11 +38,12 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
+    @Fetch(FetchMode.SUBSELECT)
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "client")
-    // @JoinColumn(name = "client_id")
-    private Set<DebitAccount> debitAccount;
+    private Set<DebitAccount> debitAccounts = new HashSet<>();
 
     @Column(nullable = false)
     private String firstName;
@@ -61,12 +66,19 @@ public class Client {
     private String passportNumber;
 
     @Column(nullable = false)
-    @Setter
     private String password;
 
     @Email
     @Column(nullable = false, unique = true)
+    @EqualsAndHashCode.Include
     private String email;
+
     private String role;
+
+    public void addDebitAccount(DebitAccount debitAccount) {
+        debitAccounts.add(debitAccount);
+        debitAccount.setClient(this);
+    }
+
 
 }

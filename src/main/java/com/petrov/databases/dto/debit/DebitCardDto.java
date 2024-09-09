@@ -6,23 +6,27 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
 @Getter
+@Setter // Добавляем сеттеры для всех полей
+@NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class DebitCardDto {
     private Long id;
     private Long debitAccountId;
-    private boolean isActive = true;
-    private String cardNumber;
+    private Boolean isActive = true; // Используем объект Boolean вместо примитива
+    public String cardNumber;
     private PaymentSystem system;
-    private byte[] cvvHash;
+    private String cvvHash;
     private byte[] pinCodeHash;
     private LocalDate expirationDate;
+
     public void disable() {
         isActive = false;
     }
 }
-
