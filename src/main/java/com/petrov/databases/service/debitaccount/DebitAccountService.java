@@ -1,5 +1,6 @@
 package com.petrov.databases.service.debitaccount;
 
+import com.petrov.databases.dto.debit.DebitAccountDTO;
 import com.petrov.databases.entity.Client;
 import com.petrov.databases.entity.debitaccount.DebitAccount;
 import com.petrov.databases.entity.debitcard.DebitCard;
@@ -13,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor

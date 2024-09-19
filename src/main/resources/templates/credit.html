@@ -3,67 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Credit</title>
+    <title>Credits</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        .form-group label {
+            margin-left: 570px;
+            margin-top: 100px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
+<div class="header">
+    <h1>Credits</h1>
+</div>
+
+<div class="form-group">
+    <label for="account">Choose Account</label>
+    <select id="account" name="accountId">
+        <option th:each="account : ${accounts}" th:value="${account.id}" th:text="${account.accountNumber}">Account Number</option>
+    </select>
+</div>
+
 <div class="container">
-    <h2>Select Debit Account and View Credits</h2>
+    <div class="link-button">
+        <form id="view-account-form" method="get">
+            <input type="hidden" id="selected-account" name="accountId">
+            <button type="button" onclick="submitForm('/account/' + getSelectedAccount() + '/credit')">View Credits</button>
+            <button type="button" onclick="submitForm('/account/' + getSelectedAccount() + '/refinanced-credit')">View Refinanced Credits</button>
+            <button type="button" onclick="submitForm('/account/' + getSelectedAccount() + '/pledge-credit')">View Pledge Credits</button>
 
-    <!-- Выбор дебетового счета -->
-    <div class="form-group">
-        <label for="debitAccount">Choose Debit Account:</label>
-        <select id="debitAccount" name="debitAccount">
-            <option value="" disabled selected>Select Account</option>
-            <option th:each="account : ${accounts}" th:value="${account.id}" th:text="${account.accountNumber}"></option>
-        </select>
+        </form>
     </div>
-
-    <!-- Место для динамического отображения кредитов -->
-    <div id="creditList">
-        <h3>Credits</h3>
-        <ul id="credits">
-            <li>Select a debit account to view its credits</li>
-        </ul>
+    <div class="link-button">
+        <a th:href="@{/user}" class="button">Back to Main page</a>
     </div>
 </div>
 
 <script>
-    // Получаем select элемент для выбора счета
-    const debitAccountSelect = document.getElementById('debitAccount');
+    function getSelectedAccount() {
+        var selectedAccount = document.getElementById('account').value;
+        return selectedAccount ? selectedAccount : 0;
+    }
 
-    // Добавляем обработчик события изменения для выбора счета
-    debitAccountSelect.addEventListener('change', function () {
-        const accountId = debitAccountSelect.value;
-
-        if (accountId) {
-            // Используем fetch для выполнения AJAX-запроса
-            fetch('/credit/get-credits/' + accountId)
-                .then(response => response.json()) // Преобразуем ответ в JSON
-                .then(data => {
-                    const creditList = document.getElementById('credits');
-                    creditList.innerHTML = ''; // Очищаем список перед добавлением новых данных
-
-                    // Если кредиты найдены, добавляем их в список
-                    if (data.length > 0) {
-                        data.forEach(credit => {
-                            const listItem = document.createElement('li');
-                            listItem.textContent = `Amount: ${credit.amount}, Term: ${credit.term} months, Rate: ${credit.rate}%`;
-                            creditList.appendChild(listItem);
-                        });
-                    } else {
-                        // Если кредитов нет, выводим сообщение
-                        const noCreditsMessage = document.createElement('li');
-                        noCreditsMessage.textContent = 'No credits available for this account';
-                        creditList.appendChild(noCreditsMessage);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching credits:', error);
-                    alert('Failed to load credits');
-                });
-        }
-    });
+    function submitForm(action) {
+        var form = document.getElementById('view-account-form');
+        form.action = action;
+        form.submit();
+    }
 </script>
+
 </body>
 </html>

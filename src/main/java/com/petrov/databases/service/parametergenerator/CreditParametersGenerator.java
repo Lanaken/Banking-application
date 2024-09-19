@@ -26,6 +26,7 @@ public class CreditParametersGenerator {
     public Credit generateCreditParameters(CreditDTO creditDTO) {
         Credit credit = creditMapper.creditDtoToCredit(creditDTO);
         BigDecimal rate = generateRate(20.0,30.0);
+        creditDTO.setRate(rate);
         Set<CreditPayment> creditPayments = generateCreditPayments(creditDTO);
         credit.setRate(rate);
         credit.addCreditPayments(creditPayments);
@@ -42,10 +43,11 @@ public class CreditParametersGenerator {
 
     protected Set<CreditPayment> generateCreditPayments(CreditDTO creditDTO) {
         Set<CreditPayment> creditPayments = new HashSet<>();
-        BigDecimal ratePerMonth = creditDTO.getRate().divide(new BigDecimal(12));
+        BigDecimal ratePerMonth = creditDTO.getRate().divide(new BigDecimal(12), 2, RoundingMode.DOWN);
         BigDecimal creditPaymentSum = creditDTO.getAmount()
-                .divide(BigDecimal.valueOf(creditDTO.getTerm()))
-                .add(creditDTO.getAmount().divide(BigDecimal.valueOf(100)).multiply(ratePerMonth));
+                .divide(BigDecimal.valueOf(creditDTO.getTerm()), 2, RoundingMode.HALF_UP)
+                .add(creditDTO.getAmount().divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP)
+                        .multiply(ratePerMonth)).setScale(2, RoundingMode.HALF_UP);
         for (int i = 1; i < creditDTO.getTerm() + 1; i++)
             creditPayments.add(
                     CreditPayment

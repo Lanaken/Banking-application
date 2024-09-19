@@ -29,8 +29,8 @@ public class ClientService {
     public void saveClient(ClientDTO clientDto) {
         Client client = clientMapper.clientDTOToClient(clientDto);
         client.setPassword(passwordEncoder.encode(client.getPassword()));
-        Example<Client> example = Example.of(client);
-        if (!clientRepository.exists(example))
+        if (clientRepository.findByEmail(client.getEmail()).isEmpty() &&
+                clientRepository.findByPassportSeriesAndPassportNumber(client.getPassportSeries(), client.getPassportNumber()).isEmpty())
             clientRepository.save(client);
         else throw new UserAlreadyExistsException();
     }

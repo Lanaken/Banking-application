@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pledges Details</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+
+        .card {
+            border: 1px solid #45b6fe;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #1b3b5a;
+            color: white;
+        }
+
+        .card h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #45b6fe;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Pledges Details</h1>
+</div>
+
+<div class="container">
+        <h3 th:if="${pledges != null and #lists.size(pledges) > 0}">Pledges:</h3>
+        <ul th:if="${pledges != null and #lists.size(pledges) > 0}">
+            <li th:each="pledge : ${pledges}" class="pledge">
+                <h4>Pledge Details</h4>
+                Id: <span th:text="${pledge.id}"></span><br>
+                Type: <span th:text="${pledge.type}"></span><br>
+                Cost: <span th:text="${pledge.cost}"></span><br>
+                Is bound to credit: <span th:text="${pledge.isBoundToCredit}"></span><br>
+            </li>
+        </ul>
+
+        <div class="form-group">
+            <h3>Issue New Pledge:</h3>
+            <form action="/pledge" method="post" th:object="${pledge}">
+
+                <div class="form-group">
+                    <label for="cost">Cost:</label>
+                    <input th:field="*{cost}" type="number" id="cost" placeholder="Enter cost" required>
+                    <!-- Отображаем ошибку валидации для поля amount -->
+                    <div th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}" class="error-message">Cost Error</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pledge-type">Choose Pledge Type:</label>
+                    <select id="pledge-type" name="pledgeType">
+                        <option value="CAR">CAR</option>
+                        <option value="FLAT">FLAT</option>
+                        <option value="HOUSE">HOUSE</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="button">Issue New Pledge</button>
+            </form>
+        </div>
+
+        <!-- Кнопка перехода обратно на главную страницу со списком счетов -->
+        <div class="link-button">
+            <a th:href="@{/user}" class="button">Back to user page</a>
+        </div>
+
+        <!-- Сообщение, если карт нет -->
+        <div th:if="${cards == null or #lists.size(cards) == 0}">
+            <p>No cards associated with this account.</p>
+        </div>
+    </div>
+
+    <!-- Сообщение, если счёта нет -->
+    <div th:unless="${account != null}">
+        <p>No account found or no account is associated with the user.</p>
+    </div>
+</div>
+
+</body>
+</html>

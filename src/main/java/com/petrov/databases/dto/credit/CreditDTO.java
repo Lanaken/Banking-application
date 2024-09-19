@@ -12,13 +12,13 @@ import java.util.Set;
 @Setter
 @Getter
 public class CreditDTO {
-    private Long id;
+    private String id;
     private Long debitAccountId;
-    private Long refinancedCreditId;
+    private String refinancingCreditId;
     private Set<Long> creditPaymentsIds;
     private Long pledgeId;
     @NotNull(message = "Amount is required")
-    @Min(value = 50000, message = "Amount must be at least 1000")
+    @Min(value = 50000, message = "Amount must be at least 50000")
     private BigDecimal amount;
     private LocalDate openedDate;
     private LocalDate closedDate;

@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(schema = "test")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Pledge {
@@ -29,6 +31,7 @@ public class Pledge {
     private Long id;
 
     @OneToOne(optional = false, mappedBy = "pledge")
+    @JoinColumn(name = "credit_id")
     private Credit credit;
 
     @Column(nullable = false)

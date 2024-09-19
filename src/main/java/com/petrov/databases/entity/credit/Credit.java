@@ -5,8 +5,8 @@ import com.petrov.databases.entity.pledge.Pledge;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,9 +17,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -31,21 +35,22 @@ import java.util.Set;
 public class Credit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid")
+    @Column(name = "uuid", unique = true)
+    private String uuid;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "debit_account_id")
     private DebitAccount debitAccount;
 
-    @ManyToOne
     @JoinColumn(name = "credit_id")
-    private Credit refinancedCredits;
+    private Credit refinancingCredits;
 
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private Set<CreditPayment> creditPayments;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "pledge_id")
     private Pledge pledge;
 
@@ -70,5 +75,15 @@ public class Credit {
     public void addCreditPayments(Set<CreditPayment> creditPayments) {
         creditPayments.forEach(creditPayment -> creditPayment.setCredit(this));
         this.setCreditPayments(creditPayments);
+    }
+
+    public void addPledge(Pledge pledge) {
+        pledge.setCredit(this);
+        this.setPledge(pledge);
+    }
+
+    public void addRefinancingCredits(List<Credit> refinancingCredits) {
+        refinancingCredits
+                .forEach(refinancingCredit -> refinancingCredit.setRefinancingCredits(this));
     }
 }

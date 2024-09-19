@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+
+        .payment {
+            border: 1px solid #45b6fe;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #1b3b5a;
+            color: white;
+        }
+
+        .payment h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #45b6fe;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Payments</h1>
+</div>
+
+<div class="container">
+
+        <!-- Проверяем, есть ли связанные кредиты -->
+        <h3 th:if="${payments != null and #lists.size(payments) > 0}">Payments:</h3>
+        <ul th:if="${payments != null and #lists.size(payments) > 0}">
+            <li th:each="payment : ${payments}" class="payment">
+                <h4>Payments Details</h4>
+                Payment Date: <span th:text="${payment.paymentDate}"></span><br>
+                Was Done: <span th:text="${payment.wasDone}"></span><br>
+                Deposited Amount: <span th:text="${payment.depositedAmount}"></span><br>
+            </li>
+        </ul>
+
+        <div class="link-button">
+            <a th:href="@{/account}" class="button">Back to Account with Credits List</a>
+        </div>
+</div>
+
+</body>
+</html>

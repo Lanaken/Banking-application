@@ -69,4 +69,8 @@ public class DebitAccount {
         this.setCurrentAmount(currentAmount.add(credit.getAmount()));
         credit.setDebitAccount(this);
     }
+
+    public void decreaseCurrentAmount(BigDecimal decreaseAmount) {
+        this.currentAmount = this.currentAmount.subtract(decreaseAmount);
+    }
 }

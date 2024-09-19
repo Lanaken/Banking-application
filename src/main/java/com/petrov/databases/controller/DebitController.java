@@ -64,7 +64,6 @@ public class DebitController {
                 ));
     }
 
-    // Выпуск новой карты для выбранного счета
     @PostMapping("/debit/new-card")
     public String openDebitAccount(String paymentSystem, Principal principal) throws Exception {
         ClientDTO clientDTO = clientService.getClientDtoByEmail(principal.getName());
