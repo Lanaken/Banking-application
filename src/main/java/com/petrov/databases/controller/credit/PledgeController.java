@@ -47,7 +47,6 @@ public class PledgeController {
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("Account not found"));
 
-            // Передаём информацию о счетах и картах
             List<CreditDTO> creditDTOS = debitAccount.getCredits().stream()
                     .filter(credit -> credit.getPledge() != null)
                     .map(creditMapper::creditToCreditDto)
@@ -63,7 +62,7 @@ public class PledgeController {
             model.addAttribute("pledge", new PledgeDto());
         }
 
-        return "pledge-credit-details";  // шаблон для просмотра деталей счёта и карт
+        return "pledge-credit-details";
     }
 
     @PostMapping("/account/{accountId}/pledge-credit")
@@ -78,7 +77,6 @@ public class PledgeController {
         if (result.hasErrors()) {
             log.error("BindingResult has error for openCredit");
 
-            // Загрузите данные для модели
             Client client = clientService.getClientByEmailWithDebitAccountsAndCards(principal.getName());
             DebitAccount debitAccount = client.getDebitAccounts().stream()
                     .filter(account -> account.getId().equals(accountId))

@@ -12,7 +12,6 @@
 </div>
 
 <div class="container">
-    <!-- Выбор счета -->
     <form action="/debit/new-card" method="post">
         <div class="form-group">
             <label for="account">Choose Account:</label>
@@ -21,7 +20,6 @@
             </select>
         </div>
 
-        <!-- Выбор платежной системы для новой карты -->
         <div class="form-group">
             <label for="payment-system">Choose Payment System:</label>
             <select id="payment-system" name="paymentSystem">
@@ -34,7 +32,6 @@
         <button type="submit" class="button">Issue New Debit Account</button>
     </form>
 
-    <!-- Переход на просмотр карт для выбранного счета -->
     <div class="link-button">
         <form id="view-account-form" method="get">
             <input type="hidden" id="selected-account" name="accountId">
@@ -48,7 +45,6 @@
 </div>
 
 <script>
-    // Обновляем скрытое поле перед отправкой формы
     function submitForm() {
         var selectedAccount = document.getElementById('account').value;
         var form = document.getElementById('view-account-form');
@@ -57,10 +53,8 @@
             selectedAccount = 0;
         }
 
-        // Устанавливаем правильный URL с подстановкой accountId
         form.action = "/debit/" + selectedAccount;
 
-        // Отправляем форму
         form.submit();
     }
 </script>

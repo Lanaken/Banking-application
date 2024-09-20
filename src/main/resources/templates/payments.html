@@ -31,7 +31,6 @@
 
 <div class="container">
 
-        <!-- Проверяем, есть ли связанные кредиты -->
         <h3 th:if="${payments != null and #lists.size(payments) > 0}">Payments:</h3>
         <ul th:if="${payments != null and #lists.size(payments) > 0}">
             <li th:each="payment : ${payments}" class="payment">

@@ -44,6 +44,7 @@ public class Credit {
     @JoinColumn(name = "debit_account_id")
     private DebitAccount debitAccount;
 
+    @ManyToOne
     @JoinColumn(name = "credit_id")
     private Credit refinancingCredits;
 

@@ -26,16 +26,14 @@
 </head>
 <body>
 <div class="header">
-    <h1>Account Details</h1>
+    <h1>Credit Details</h1>
 </div>
 
 <div class="container">
 
-    <!-- Проверяем, есть ли счёт -->
     <div th:if="${account != null}">
         <h2>Account: <span th:text="${account.accountNumber}"></span></h2>
 
-        <!-- Проверяем, есть ли связанные кредиты -->
         <h3 th:if="${credits != null and #lists.size(credits) > 0}">Credits:</h3>
         <ul th:if="${credits != null and #lists.size(credits) > 0}">
             <li th:each="credit : ${credits}" class="credit">
@@ -55,18 +53,15 @@
                 <div class="form-group">
                     <label for="amount">Amount:</label>
                     <input th:field="*{amount}" type="number" id="amount" placeholder="Enter amount" required>
-                    <!-- Отображаем ошибку валидации для поля amount -->
                     <div th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="error-message">Amount Error</div>
                 </div>
 
                 <div class="form-group">
                     <label for="term">Term (months):</label>
                     <input th:field="*{term}" type="number" id="term" placeholder="Enter term in months" required>
-                    <!-- Отображаем ошибку валидации для поля term -->
                     <div th:if="${#fields.hasErrors('term')}" th:errors="*{term}" class="error-message">Term Error</div>
                 </div>
 
-                <!-- Общие ошибки формы -->
                 <div th:if="${#fields.hasGlobalErrors()}" class="global-error-message">
                     <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
                 </div>
@@ -75,18 +70,15 @@
             </form>
         </div>
 
-        <!-- Кнопка перехода обратно на главную страницу со списком счетов -->
         <div class="link-button">
             <a th:href="@{/account}" class="button">Back to Accounts with Credits List</a>
         </div>
 
-        <!-- Сообщение, если кредитов нет -->
         <div th:if="${credits == null or #lists.size(credits) == 0}">
             <p>No cards associated with this account.</p>
         </div>
     </div>
 
-    <!-- Сообщение, если счёта нет -->
     <div th:unless="${account != null}">
         <p>No account found or no account is associated with the user.</p>
     </div>

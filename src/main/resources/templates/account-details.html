@@ -30,12 +30,10 @@
 </div>
 
 <div class="container">
-    <!-- Проверяем, есть ли счёт -->
     <div th:if="${account != null}">
         <h2>Account: <span th:text="${account.accountNumber}"></span></h2>
         <h3>Current Balance: <span th:text="${account.currentAmount}"></span></h3>
 
-        <!-- Проверяем, есть ли связанные карты -->
         <h3 th:if="${cards != null and #lists.size(cards) > 0}">Cards:</h3>
         <ul th:if="${cards != null and #lists.size(cards) > 0}">
             <li th:each="card : ${cards}" class="card">
@@ -52,7 +50,6 @@
             <form action="/debit/{accountId}" method="post">
                 <input type="hidden" name="accountId" th:value="${account.id}">
 
-                <!-- Выбор платежной системы для новой карты -->
                 <div class="form-group">
                     <label for="payment-system">Choose Payment System:</label>
                     <select id="payment-system" name="paymentSystem">
@@ -66,12 +63,10 @@
             </form>
         </div>
 
-        <!-- Кнопка перехода обратно на главную страницу со списком счетов -->
         <div class="link-button">
             <a th:href="@{/debit}" class="button">Back to Accounts List</a>
         </div>
 
-        <!-- Сообщение, если карт нет -->
         <div th:if="${cards == null or #lists.size(cards) == 0}">
             <p>No cards associated with this account.</p>
         </div>
