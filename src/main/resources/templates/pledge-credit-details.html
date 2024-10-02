@@ -42,69 +42,71 @@
 </head>
 <body>
 <div class="header">
-    <h1>Account Details</h1>
+    <h1>Залоговые кредиты</h1>
 </div>
 
 <div class="container">
 
     <div th:if="${account != null}">
-        <h2>Account: <span th:text="${account.accountNumber}"></span></h2>
+        <h2>Номер счета: <span th:text="${account.accountNumber}"></span></h2>
 
-        <h3 th:if="${credits != null and #lists.size(credits) > 0}">Credits:</h3>
+        <h3 th:if="${credits != null and #lists.size(credits) > 0}">Кредиты:</h3>
         <ul th:if="${credits != null and #lists.size(credits) > 0}">
             <li th:each="credit : ${credits}" class="credit">
-                <h4>Credit Details</h4>
-                UUID: <span th:text="${credit.id}"></span><br>
-                Credit Amount: <span th:text="${credit.amount}"></span><br>
-                Rate: <span th:text="${credit.rate}"></span><br>
-                Open date: <span th:text="${credit.openedDate}"></span><br>
+                <h4>Детали</h4>
+                ЮИД: <span th:text="${credit.id}"></span><br>
+                Сумма: <span th:text="${credit.amount}"></span><br>
+                Сумма долга: <span th:text="${credit.debt}"></span><br>
+                Ставка: <span th:text="${credit.rate}"></span><br>
+                Дата открытия: <span th:text="${credit.openedDate}"></span><br>
+                Дата закрытия: <span th:text="${credit.closedDate}"></span><br>
             </li>
         </ul>
 
-        <h3 th:if="${pledges != null and #lists.size(pledges) > 0}">Pledges:</h3>
+        <h3 th:if="${pledges != null and #lists.size(pledges) > 0}">Залоги:</h3>
         <ul th:if="${pledges != null and #lists.size(pledges) > 0}">
             <li th:each="pledge : ${pledges}" class="pledge">
-                <h4>Pledge Details</h4>
-                Credit id: <span th:text="${pledge.creditId}"></span><br>
-                Pledge Cost: <span th:text="${pledge.cost}"></span><br>
-                Pledge Type: <span th:text="${pledge.pledgeType}"></span><br>
+                <h4>Детали</h4>
+                Идентификатор залога: <span th:text="${pledge.creditId}"></span><br>
+                Стоимость: <span th:text="${pledge.cost}"></span><br>
+                Тип: <span th:text="${pledge.pledgeType}"></span><br>
             </li>
         </ul>
 
         <div class="form-group">
-            <h3>Issue New Credit and Pledge for This Account:</h3>
+            <h3>Открыть новый залоговый кредит:</h3>
             <form th:action="@{/account/{accountId}/pledge-credit(accountId=${account.id})}" method="post" th:object="${credit}">
                 <input type="hidden" name="accountId" th:value="${account.id}">
 
-                <h4>Credit Details:</h4>
+                <h4>Детали кредита:</h4>
                 <div>
                     <div class="form-group">
-                        <label for="creditAmount">Credit Amount:</label>
-                        <input th:field="*{amount}" type="number" id="creditAmount" placeholder="Enter amount" required>
+                        <label for="creditAmount">Сумма:</label>
+                        <input th:field="*{amount}" type="number" id="creditAmount" placeholder="Введите сумму" required>
                         <div th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}" class="error-message">Amount Error</div>
                     </div>
 
                     <div class="form-group">
-                        <label for="creditTerm">Credit Term (months):</label>
-                        <input th:field="*{term}" type="number" id="creditTerm" placeholder="Enter term in months" required>
+                        <label for="creditTerm">Срок(в месяцах):</label>
+                        <input th:field="*{term}" type="number" id="creditTerm" placeholder="Введите срок" required>
                         <div th:if="${#fields.hasErrors('term')}" th:errors="*{term}" class="error-message">Term Error</div>
                     </div>
                 </div>
 
-                <h4>Pledge Details:</h4>
+                <h4>Детали залога:</h4>
                 <div th:object="${pledge}">
                     <div class="form-group">
-                        <label for="pledgeCost">Pledge Cost:</label>
-                        <input th:field="*{cost}" type="number" id="pledgeCost" placeholder="Enter pledge cost" required>
+                        <label for="pledgeCost">Стоимость:</label>
+                        <input th:field="*{cost}" type="number" id="pledgeCost" placeholder="Введите стоимость" required>
                         <div th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}" class="error-message">Pledge Amount Error</div>
                     </div>
 
                     <div class="form-group">
-                        <label for="pledge-type">Choose Pledge Type:</label>
+                        <label for="pledge-type">Выберите тип залога:</label>
                         <select th:field="*{pledgeType}">
-                            <option value="CAR">CAR</option>
-                            <option value="FLAT">FLAT</option>
-                            <option value="HOUSE">HOUSE</option>
+                            <option value="CAR">Машина</option>
+                            <option value="FLAT">Квартира</option>
+                            <option value="HOUSE">Дом</option>
                         </select>
                     </div>
                 </div>
@@ -113,22 +115,22 @@
                     <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
                 </div>
 
-                <button type="submit" class="button">Issue New Credit and Pledge</button>
+                <button type="submit" class="button">Взять новый залоговый кредит</button>
             </form>
         </div>
 
 
         <div class="link-button">
-            <a th:href="@{/account}" class="button">Back to Accounts</a>
+            <a th:href="@{/account}" class="button">Назад</a>
         </div>
 
         <div th:if="${credits == null or #lists.size(credits) == 0}">
-            <p>No cards associated with this account.</p>
+            <p>Нет залоговых кредитов на этом счете.</p>
         </div>
     </div>
 
     <div th:unless="${account != null}">
-        <p>No account found or no account is associated with the user.</p>
+        <p>У вас нет открытых дебетовых счетов.</p>
     </div>
 </div>
 

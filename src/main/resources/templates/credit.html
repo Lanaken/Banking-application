@@ -31,7 +31,7 @@
             <input type="hidden" id="selected-account" name="accountId">
             <button type="button" onclick="submitForm('/account/' + getSelectedAccount() + '/credit')">View Credits</button>
             <button type="button" onclick="submitForm('/account/' + getSelectedAccount() + '/refinanced-credit')">View Refinanced Credits</button>
-            <button type="button" onclick="submitForm('/account/' + getSelectedAccount() + '/pledge-credit')">View Pledge Credits</button>
+            <button type="button" onclick="submitForm('/account/' + getSelectedAccount() + '/pledge-credit')">View Pledgeg Credits</button>
 
         </form>
     </div>
@@ -39,6 +39,8 @@
         <a th:href="@{/user}" class="button">Back to Main page</a>
     </div>
 </div>
+
+
 
 <script>
     function getSelectedAccount() {

@@ -8,16 +8,18 @@
 </head>
 <body>
 <div class="header">
-    <h1>USER Dashboard</h1>
+    <h1>Пользовательская страница</h1>
 </div>
 <div class="container">
-    <h2>Welcome, [[${user.getFirstName()}]]</h2>
+    <h2>Здравствуйте, [[${user.getFirstName()}]]</h2>
 
-    <a href="/account" class="button">View All Credits</a>
-    <a href="/debit" class="button">Debit Accounts & Cards</a>
+    <a href="/account" class="button">Просмотр кредитов</a>
+
+
+    <a href="/debit" class="button">Просмотр дебетовых счетов и карт</a>
 
     <span sec:authorize="isAuthenticated">
-        <a th:href="@{/logout}" class="button">Logout</a>
+        <a th:href="@{/logout}" class="button">Выйти</a>
         </span>
 
 </div>

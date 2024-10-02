@@ -1,7 +1,9 @@
 package com.petrov.databases.entity.credit;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,7 +31,7 @@ public class CreditPayment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "credit_id")
     private Credit credit;
 
@@ -41,4 +43,8 @@ public class CreditPayment {
 
     @Column(scale = 2)
     private BigDecimal depositedAmount;
+
+    public void makePayment(){
+        this.wasDone = true;
+    }
 }

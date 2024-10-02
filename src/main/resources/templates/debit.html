@@ -8,39 +8,39 @@
 </head>
 <body>
 <div class="header">
-    <h1>Debit Cards and Accounts</h1>
+    <h1>Дебетовые счета и карты</h1>
 </div>
 
 <div class="container">
     <form action="/debit/new-card" method="post">
         <div class="form-group">
-            <label for="account">Choose Account:</label>
+            <label for="account">Выберите счет:</label>
             <select id="account" name="accountId">
-                <option th:each="account : ${accounts}" th:value="${account.id}" th:text="${account.accountNumber}">Account Number</option>
+                <option th:each="account : ${accounts}" th:value="${account.id}" th:text="${account.accountNumber}">Номер счета</option>
             </select>
         </div>
 
         <div class="form-group">
-            <label for="payment-system">Choose Payment System:</label>
+            <label for="payment-system">Выберите платежную систему:</label>
             <select id="payment-system" name="paymentSystem">
                 <option value="VISA">VISA</option>
                 <option value="MASTERCARD">MASTERCARD</option>
-                <option value="MIR">MIR</option>
+                <option value="MIR">МИР</option>
             </select>
         </div>
 
-        <button type="submit" class="button">Issue New Debit Account</button>
+        <button type="submit" class="button">Открыть новый дебетовый счета</button>
     </form>
 
     <div class="link-button">
         <form id="view-account-form" method="get">
             <input type="hidden" id="selected-account" name="accountId">
-            <button type="button" onclick="submitForm()">View Account and Cards</button>
+            <button type="button" onclick="submitForm()">Открыть детали счета</button>
         </form>
     </div>
 
     <div class="link-button">
-        <a th:href="@{/user}" class="button">Back to Main page</a>
+        <a th:href="@{/user}" class="button">Назад на страницу пользователя</a>
     </div>
 </div>
 

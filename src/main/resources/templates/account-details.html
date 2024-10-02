@@ -26,55 +26,55 @@
 </head>
 <body>
 <div class="header">
-    <h1>Account Details</h1>
+    <h1>Детали счетов</h1>
 </div>
 
 <div class="container">
     <div th:if="${account != null}">
-        <h2>Account: <span th:text="${account.accountNumber}"></span></h2>
-        <h3>Current Balance: <span th:text="${account.currentAmount}"></span></h3>
+        <h2>Счет: <span th:text="${account.accountNumber}"></span></h2>
+        <h3>Баланс: <span th:text="${account.currentAmount}"></span></h3>
 
-        <h3 th:if="${cards != null and #lists.size(cards) > 0}">Cards:</h3>
+        <h3 th:if="${cards != null and #lists.size(cards) > 0}">Карты:</h3>
         <ul th:if="${cards != null and #lists.size(cards) > 0}">
             <li th:each="card : ${cards}" class="card">
-                <h4>Card Details</h4>
-                Card Number: <span th:text="${card.cardNumber}"></span><br>
-                Expiration Date: <span th:text="${card.expirationDate}"></span><br>
+                <h4>Детали</h4>
+                Номер карты: <span th:text="${card.cardNumber}"></span><br>
+                Действительно до: <span th:text="${card.expirationDate}"></span><br>
                 CVV: <span th:text="${card.cvvHash}"></span><br>
-                Payment System: <span th:text="${card.system}"></span><br>
+                Платежная система: <span th:text="${card.system}"></span><br>
             </li>
         </ul>
 
         <div class="form-group">
-            <h3>Issue New Debit Card for This Account:</h3>
+            <h3>Открыть новую дебетовую карту для этого счета:</h3>
             <form action="/debit/{accountId}" method="post">
                 <input type="hidden" name="accountId" th:value="${account.id}">
 
                 <div class="form-group">
-                    <label for="payment-system">Choose Payment System:</label>
+                    <label for="payment-system">Выберите платежную систему:</label>
                     <select id="payment-system" name="paymentSystem">
                         <option value="VISA">VISA</option>
                         <option value="MASTERCARD">MASTERCARD</option>
-                        <option value="MIR">MIR</option>
+                        <option value="MIR">МИР</option>
                     </select>
                 </div>
 
-                <button type="submit" class="button">Issue New Card</button>
+                <button type="submit" class="button">Открыть новую дебетовую карту</button>
             </form>
         </div>
 
         <div class="link-button">
-            <a th:href="@{/debit}" class="button">Back to Accounts List</a>
+            <a th:href="@{/debit}" class="button">Назад на страницу со счетами</a>
         </div>
 
         <div th:if="${cards == null or #lists.size(cards) == 0}">
-            <p>No cards associated with this account.</p>
+            <p>Для этого счета нет открытых дебетовых карт.</p>
         </div>
     </div>
 
     <!-- Сообщение, если счёта нет -->
     <div th:unless="${account != null}">
-        <p>No account found or no account is associated with the user.</p>
+        <p>У вас нет открытых дебетовых счетов.</p>
     </div>
 </div>
 

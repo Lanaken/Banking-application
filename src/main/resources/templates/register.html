@@ -11,7 +11,7 @@
         <div class="message" th:if="${message != null}">
            [[${message}]]
         </div>
-        <h2>Registration Form</h2>
+        <h2>Страница регистрации</h2>
         <form 
          th:action="@{/registration}"
          method="post"
@@ -19,38 +19,38 @@
          th:object="${user}"
         >
             <div class="form-group">
-                <label for="firstName">FirstName:</label>
-                <input th:field="*{firstName}" type="text" id="firstName" name="firstName" placeholder="Enter your firstName" required>
+                <label for="firstName">Имя:</label>
+                <input th:field="*{firstName}" type="text" id="firstName" name="firstName" placeholder="Введите имя" required>
             </div>
 
             <div class="form-group">
-                <label for="middleName">MiddleName:</label>
-                <input th:field="*{middleName}" type="text" id="middleName" name="middleName" placeholder="Enter your middleName">
+                <label for="lastName">Фамилия:</label>
+                <input th:field="*{lastName}" type="text" id="lastName" name="lastName" placeholder="Введите фамилию" required>
             </div>
 
             <div class="form-group">
-                <label for="lastName">LastName:</label>
-                <input th:field="*{lastName}" type="text" id="lastName" name="lastName" placeholder="Enter your lastName" required>
+                <label for="middleName">Отчество:</label>
+                <input th:field="*{middleName}" type="text" id="middleName" name="middleName" placeholder="Введите отчество">
             </div>
             
             <div class="form-group">
-                <label for="email">Email:</label>
-                <input th:field="*{email}" type="email" id="email" name="email" placeholder="Enter your email" required>
+                <label for="email">Электронная почта:</label>
+                <input th:field="*{email}" type="email" id="email" name="email" placeholder="Введите адрес электронной почты" required>
             </div>
             
             <div class="form-group">
-                <label for="password">Password:</label>
-                <input th:field="*{password}" type="password" id="password" name="password" placeholder="Enter your password" required>
+                <label for="password">Пароль:</label>
+                <input th:field="*{password}" type="password" id="password" name="password" placeholder="Введите пароль" required>
             </div>
 
             <div class="form-group">
-                <label for="passportSeries">PassportSeries:</label>
-                <input th:field="*{passportSeries}" type="text" id="passportSeries" name="passportSeries" placeholder="Enter your passportSeries" required>
+                <label for="passportSeries">Серия паспорта:</label>
+                <input th:field="*{passportSeries}" type="text" id="passportSeries" name="passportSeries" placeholder="Введите серию паспорта" required>
             </div>
 
             <div class="form-group">
-                <label for="passportNumber">PassportNumber:</label>
-                <input th:field="*{passportNumber}" type="text" id="passportNumber" name="passportNumber" placeholder="Enter your passportNumber" required>
+                <label for="passportNumber">Номер паспорта:</label>
+                <input th:field="*{passportNumber}" type="text" id="passportNumber" name="passportNumber" placeholder="Введите номер паспорта" required>
                 <div th:if="${#fields.hasErrors('passportNumber')}" th:errors="*{passportNumber}" class="error">
                     Ошибка валидации
                 </div>
@@ -60,7 +60,7 @@
                 <input type="date" id="dateOfBirth" th:field="*{dateOfBirth}" required>
                 <div th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="error"></div>
             </div>
-            <input type="submit" value="Register">
+            <input type="submit" value="Зарегистрироваться">
         </form>
 
     </div>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments Chart</title>
+    <!-- Подключение Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="header">
+    <h1>График платежей</h1>
+</div>
+
+<div class="container">
+    <!-- Canvas элемент для графика -->
+    <canvas id="paymentsChart" width="400" height="200"></canvas>
+</div>
+
+<script>
+    // Получение данных из Thymeleaf
+    var labels = /*[[${months}]]*/ []; // Массив с месяцами
+    var data = /*[[${paymentSums}]]*/ []; // Массив с суммами платежей
+
+    // Создание графика
+    var ctx = document.getElementById('paymentsChart').getContext('2d');
+    var paymentsChart = new Chart(ctx, {
+        type: 'line', // Тип графика (линейный)
+        data: {
+            labels: labels, // Месяцы
+            datasets: [{
+                label: 'Суммы платежей', // Название графика
+                data: data, // Суммы платежей
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

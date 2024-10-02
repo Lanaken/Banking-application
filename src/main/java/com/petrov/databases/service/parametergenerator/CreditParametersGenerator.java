@@ -29,6 +29,7 @@ public class CreditParametersGenerator {
         creditDTO.setRate(rate);
         Set<CreditPayment> creditPayments = generateCreditPayments(creditDTO);
         credit.setRate(rate);
+        credit.setDebt(creditDTO.getAmount());
         credit.addCreditPayments(creditPayments);
         credit.setOpenedDate(LocalDate.now(clock));
         return credit;

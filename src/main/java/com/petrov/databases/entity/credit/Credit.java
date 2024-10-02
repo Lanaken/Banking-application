@@ -17,8 +17,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
@@ -58,6 +56,9 @@ public class Credit {
     @Column(nullable = false, updatable = false, scale = 2)
     private BigDecimal amount;
 
+    @Column(nullable = false, scale = 2)
+    private BigDecimal debt;
+
     @Column(nullable = false)
     private LocalDate openedDate;
 
@@ -86,5 +87,9 @@ public class Credit {
     public void addRefinancingCredits(List<Credit> refinancingCredits) {
         refinancingCredits
                 .forEach(refinancingCredit -> refinancingCredit.setRefinancingCredits(this));
+    }
+
+    public void reduceDebt(BigDecimal debt) {
+        this.debt = this.debt.subtract(debt);
     }
 }

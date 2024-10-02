@@ -1,5 +1,7 @@
 package com.petrov.databases.dto.credit;
 
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -17,9 +19,10 @@ public class CreditDTO {
     private String refinancingCreditId;
     private Set<Long> creditPaymentsIds;
     private Long pledgeId;
-    @NotNull(message = "Amount is required")
-    @Min(value = 50000, message = "Amount must be at least 50000")
+    @NotNull(message = "Введите сумму")
+    @Min(value = 50000, message = "Размер кредита должен быть не меньше 50000")
     private BigDecimal amount;
+    private BigDecimal debt;
     private LocalDate openedDate;
     private LocalDate closedDate;
     private BigDecimal rate;
