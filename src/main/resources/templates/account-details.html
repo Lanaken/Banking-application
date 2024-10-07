@@ -65,7 +65,7 @@
 
         <div class="form-group">
             <h3>Пополнить счет:</h3>
-            <form action="/account/{accountId}/deposit" method="post">
+            <form th:action="@{/account/{accountId}/deposit(accountId=${account.id})}" method="post">
                 <input type="hidden" name="accountId" th:value="${account.id}">
 
                 <div class="form-group">
