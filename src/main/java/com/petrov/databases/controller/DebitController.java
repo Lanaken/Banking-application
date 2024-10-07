@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -102,5 +103,11 @@ public class DebitController {
         }
 
         return "account-details";  // шаблон для просмотра деталей счёта и карт
+    }
+
+    @PostMapping("/account/{accountId}/deposit")
+    public String increaseDebitAccountAmount(@PathVariable String accountId, Model model, Principal principal, BigDecimal amount) {
+        bankingService.increaseAmount(Long.parseLong(accountId), amount);
+        return STR."redirect:/debit/\{accountId}";
     }
 }

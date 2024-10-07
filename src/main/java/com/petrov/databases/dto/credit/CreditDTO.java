@@ -26,6 +26,7 @@ public class CreditDTO {
     private LocalDate openedDate;
     private LocalDate closedDate;
     private BigDecimal rate;
+    private PaymentType paymentType;
     private boolean hasPenalty = false;
 
     public void addPenalty() {

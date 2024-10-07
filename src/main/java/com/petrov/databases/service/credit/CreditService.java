@@ -3,6 +3,7 @@ package com.petrov.databases.service.credit;
 import com.petrov.databases.dto.credit.CreditDTO;
 import com.petrov.databases.dto.credit.PledgeDto;
 import com.petrov.databases.entity.credit.Credit;
+import com.petrov.databases.entity.credit.CreditPayment;
 import com.petrov.databases.entity.debitaccount.DebitAccount;
 import com.petrov.databases.entity.pledge.Pledge;
 import com.petrov.databases.mapper.credit.CreditMapper;
@@ -53,10 +54,12 @@ public class CreditService {
         Credit credit = creditParametersGenerator.generateCreditParameters(creditDTO);
         DebitAccount debitAccount = debitAccountService.getDebitAccount(accountId);
         debitAccount.addCredit(credit);
-        credits.forEach(credit1 -> debitAccount.decreaseCurrentAmount(credit1.getAmount()));
+        credits.forEach(credit1 -> debitAccount.decreaseCurrentAmount(credit1.getDebt()));
         credits.forEach(refinancedCredit -> refinancedCredit.setClosedDate(LocalDate.now(clock)));
+        credits.forEach(refinancedCredit -> refinancedCredit.setDebt(BigDecimal.ZERO));
+        //    credits.forEach(refinancedCredit -> refinancedCredit.getCreditPayments().forEach(CreditPayment::makePayment));
         credit.addRefinancingCredits(credits);
-        credits.forEach(refinancedCredits -> creditRepository.save(refinancedCredits));
+        //credits.forEach(refinancedCredits -> creditRepository.save(refinancedCredits));
         debitAccountService.save(debitAccount);
         return credit;
     }
@@ -73,7 +76,7 @@ public class CreditService {
     }
 
     private boolean checkIfAmountIsEnough(CreditDTO creditDTO, List<Credit> refinancedCredits) {
-        return creditDTO.getAmount().max(refinancedCredits.stream().map(Credit::getAmount).reduce(BigDecimal::add).get()).equals(creditDTO.getAmount());
+        return creditDTO.getAmount().max(refinancedCredits.stream().map(Credit::getDebt).reduce(BigDecimal::add).get()).equals(creditDTO.getAmount());
     }
 
     public Credit getCreditWithPayments(String uuid){

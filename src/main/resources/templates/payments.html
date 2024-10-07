@@ -56,7 +56,6 @@
         </form>
     </div>
 
-    <!-- Payments List -->
     <h3 th:if="${payments != null and #lists.size(payments) > 0}">Платежи:</h3>
     <ul th:if="${payments != null and #lists.size(payments) > 0}">
         <li th:each="payment : ${payments}" class="payment">
@@ -67,7 +66,6 @@
         </li>
     </ul>
 
-    <!-- Back Button -->
     <div class="link-button">
         <a th:href="@{/account}" class="button">Назад</a>
     </div>

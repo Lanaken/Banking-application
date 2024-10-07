@@ -20,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+
 @Service
 @AllArgsConstructor
 public class BankingService {
@@ -56,5 +58,10 @@ public class BankingService {
         debitAccount.addDebitCard(debitCard);
         debitAccountService.save(debitAccount);
         log.info("Finish openDebitCard");
+    }
+
+    @Transactional
+    public void increaseAmount(Long accountId, BigDecimal amount) {
+
     }
 }

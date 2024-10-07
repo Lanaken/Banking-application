@@ -38,11 +38,11 @@ public class Credit {
     @Column(name = "uuid", unique = true)
     private String uuid;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "debit_account_id")
     private DebitAccount debitAccount;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "credit_id")
     private Credit refinancingCredits;
 
@@ -50,7 +50,6 @@ public class Credit {
     private Set<CreditPayment> creditPayments;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "pledge_id")
     private Pledge pledge;
 
     @Column(nullable = false, updatable = false, scale = 2)

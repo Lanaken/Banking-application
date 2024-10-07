@@ -30,8 +30,8 @@ public class Pledge {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @OneToOne(optional = false, mappedBy = "pledge")
-    @JoinColumn(name = "credit_id")
+    @OneToOne(optional = false)
+    @JoinColumn(name = "credit_id", referencedColumnName = "uuid")
     private Credit credit;
 
     @Column(nullable = false)

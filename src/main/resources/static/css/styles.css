@@ -60,8 +60,42 @@ body {
             margin-top: 20px;
             border-radius: 5px;
         }
-
         .button {
-            margin: 5px;
-            padding: 10px;
+                    display: inline-block;
+                    padding: 10px 20px;
+                    margin: 5px;
+                    background-color: #45b6fe;
+                    color: white;
+                    text-decoration: none;
+                    border: none;
+                    border-radius: 5px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
         }
+
+        .button:hover {
+            background-color: #1b8dbf;
+        }
+
+        .submitForm() {
+                            display: inline-block;
+                            padding: 10px 20px;
+                            margin: 5px;
+                            background-color: #45b6fe;
+                            color: white;
+                            text-decoration: none;
+                            border: none;
+                            border-radius: 5px;
+                            font-size: 16px;
+                            font-weight: bold;
+                            cursor: pointer;
+                            transition: background-color 0.3s ease;
+                }
+
+
+
+
+
+

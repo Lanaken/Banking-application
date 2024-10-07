@@ -69,7 +69,6 @@ public class CreditController {
         if (result.hasErrors()) {
             log.error("BindingResult has error for openCredit");
 
-            // Загрузите данные для модели
             Client client = clientService.getClientByEmailWithDebitAccountsAndCards(principal.getName());
             DebitAccount debitAccount = client.getDebitAccounts().stream()
                     .filter(account -> account.getId().equals(accountId))
@@ -84,7 +83,6 @@ public class CreditController {
             model.addAttribute("credits", creditDTOS);
             model.addAttribute("creditDTO", creditDTO);
 
-            // Возвращаем ту же страницу с ошибками
             return "credit-details";
         }
         creditService.openCredit(accountId, creditDTO);

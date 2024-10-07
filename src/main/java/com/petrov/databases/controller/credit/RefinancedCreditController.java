@@ -72,7 +72,6 @@ public class RefinancedCreditController {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Account not found"));
 
-        // Передаём информацию о счетах и картах
         List<CreditDTO> creditDTOS = debitAccount.getCredits().stream()
                 .map(creditMapper::creditToCreditDto)
                 .toList();
@@ -120,7 +119,6 @@ public class RefinancedCreditController {
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("Account not found"));
 
-            // Передаём информацию о счетах и картах
             List<CreditDTO> creditDTOS = debitAccount.getCredits().stream()
                     .map(creditMapper::creditToCreditDto)
                     .toList();
@@ -154,6 +152,6 @@ public class RefinancedCreditController {
             model.addAttribute("canBeRefinanced", canBeRefinanced);
         }
 
-        return "refinanced-credit-details";  // шаблон для просмотра деталей счёта и карт
+        return "refinanced-credit-details";
     }
 }

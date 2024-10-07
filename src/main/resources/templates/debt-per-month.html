@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payments Chart</title>
-    <!-- Подключение Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/min/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment@1.0.0"></script>
 </head>
 <body>
 <div class="header">
@@ -13,24 +14,28 @@
 </div>
 
 <div class="container">
-    <!-- Canvas элемент для графика -->
     <canvas id="paymentsChart" width="400" height="200"></canvas>
 </div>
 
-<script>
-    // Получение данных из Thymeleaf
-    var labels = /*[[${months}]]*/ []; // Массив с месяцами
-    var data = /*[[${paymentSums}]]*/ []; // Массив с суммами платежей
+<script th:inline="javascript">
+    // Получаем данные, переданные с сервера
+    var labels = [[${monthsWithYear}]]; // Массив с годами и месяцами, например, "2024-01"
+    var paymentSums = [[${paymentSums}]]; // Массив с суммами платежей
 
-    // Создание графика
+    // Преобразуем метки дат в формат ISO, добавляя первый день месяца
+    var formattedLabels = [[${monthsWithYear}]].map(function(label) {
+    return new Date(label + "-01"); // Преобразуем строку в объект Date
+    });
+    console.log("suka" + formattedLabels);
+    // Создаем график
     var ctx = document.getElementById('paymentsChart').getContext('2d');
     var paymentsChart = new Chart(ctx, {
-        type: 'line', // Тип графика (линейный)
+        type: 'line',
         data: {
-            labels: labels, // Месяцы
+            labels: formattedLabels, // Здесь преобразованные даты
             datasets: [{
-                label: 'Суммы платежей', // Название графика
-                data: data, // Суммы платежей
+                label: 'Суммы платежей',
+                data: paymentSums,
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderWidth: 1
@@ -38,6 +43,16 @@
         },
         options: {
             scales: {
+                x: {
+                    type: 'time', // Указываем, что ось X временная
+                    time: {
+                        unit: 'month', // Единица измерения времени - месяц
+                        tooltipFormat: 'YYYY-MM', // Формат для подсказок
+                        displayFormats: {
+                            month: 'YYYY-MM' // Формат отображения меток на оси
+                        }
+                    }
+                },
                 y: {
                     beginAtZero: true
                 }

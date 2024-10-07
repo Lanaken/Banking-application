@@ -60,6 +60,7 @@
                 Ставка: <span th:text="${credit.rate}"></span><br>
                 Дата открытия: <span th:text="${credit.openedDate}"></span><br>
                 Дата закрытия: <span th:text="${credit.closedDate}"></span><br>
+                <a th:href="@{/account/{accountId}/credit/{creditId}/payments(accountId=${account.id}, creditId=${credit.id})}" class="button">Расписание платежей</a>
             </li>
         </ul>
 
